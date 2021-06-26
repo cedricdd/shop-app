@@ -14,6 +14,7 @@ import CustomHeaderButton from "../components/HeaderButton";
 import Cart from "../screens/shop/Cart";
 import Orders from "../screens/shop/Orders";
 import UserProducts from "../screens/user/UserProduct";
+import EditProduct from "../screens/user/EditProduct";
 
 const Stack = createStackNavigator();
 
@@ -153,6 +154,26 @@ function AdminNavigator() {
               />
             </HeaderButtons>
           ),
+          headerRight: () => (
+            <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+              <Item
+                title="Cart"
+                iconName={
+                  Platform.OS === "android" ? "md-create" : "ios-create"
+                }
+                onPress={() => {
+                  navigation.navigate("EditProduct");
+                }}
+              />
+            </HeaderButtons>
+          ),
+        })}
+      />
+      <Stack.Screen
+        name="EditProduct"
+        component={EditProduct}
+        options={({ navigation, route }) => ({
+          title: route.params?.productId ? "Edit Product" : "Add Product",
         })}
       />
     </Stack.Navigator>

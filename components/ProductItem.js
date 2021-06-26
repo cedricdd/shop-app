@@ -62,10 +62,12 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     marginVertical: 4,
+    textAlign: "center",
   },
   price: {
     fontSize: 14,
     color: "#888",
+    textAlign: "center",
   },
   btnContainer: {
     flexDirection: "row",
