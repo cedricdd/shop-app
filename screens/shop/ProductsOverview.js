@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FlatList, Button } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 
 import ProductItem from "../../components/ProductItem";
 import * as cartActions from "../../store/actions/cart";
+import * as productsActions from "../../store/actions/products";
 import Colors from "../../constants/Colors";
 
 const ProductsOverview = (props) => {
@@ -15,6 +16,10 @@ const ProductsOverview = (props) => {
   const onViewDetailHandler = (item) => {
     navigation.navigate("Details", { product: item });
   };
+
+  useEffect(() => {
+    dispatch(productsActions.fetchProducts());
+  }, [dispatch]);
 
   return (
     <FlatList
