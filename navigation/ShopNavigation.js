@@ -1,6 +1,6 @@
 import * as React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import { Platform, SafeAreaView, Button, View } from "react-native";
+import { Platform } from "react-native";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import {
   createDrawerNavigator,
@@ -256,11 +256,11 @@ export const ShopNavigator = () => {
         name="Products"
         component={ProductNavigator}
         options={{
-          drawerIcon: ({ focused }) => (
+          drawerIcon: ({ color }) => (
             <Ionicons
               name={Platform.OS === "android" ? "md-cart" : "ios-cart"}
               size={23}
-              color={focused ? Colors.primary : "#ccc"}
+              color={color}
             />
           ),
         }}
@@ -269,11 +269,11 @@ export const ShopNavigator = () => {
         name="Orders"
         component={OrderNavigator}
         options={{
-          drawerIcon: ({ focused }) => (
+          drawerIcon: ({ color }) => (
             <Ionicons
               name={Platform.OS === "android" ? "md-list" : "ios-list"}
               size={23}
-              color={focused ? Colors.primary : "#ccc"}
+              color={color}
             />
           ),
         }}
@@ -282,11 +282,11 @@ export const ShopNavigator = () => {
         name="UserProducts"
         component={AdminNavigator}
         options={{
-          drawerIcon: ({ focused }) => (
+          drawerIcon: ({ color }) => (
             <Ionicons
               name={Platform.OS === "android" ? "md-create" : "ios-create"}
               size={23}
-              color={focused ? Colors.primary : "#ccc"}
+              color={color}
             />
           ),
         }}
