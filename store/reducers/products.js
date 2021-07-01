@@ -1,4 +1,3 @@
-import PRODUCTS from "../../data/dummy-data";
 import Product from "../../models/product";
 import {
   DELETE_PRODUCT,
@@ -8,14 +7,8 @@ import {
 } from "../actions/products";
 
 const initState = {
-  availableProducts: PRODUCTS,
-  userProducts: PRODUCTS.filter((product) => {
-    if (product.ownerID === "u1") {
-      return true;
-    } else {
-      return false;
-    }
-  }),
+  availableProducts: [],
+  userProducts: [],
 };
 
 const productReducer = (state = initState, action) => {
@@ -23,7 +16,7 @@ const productReducer = (state = initState, action) => {
     case CREATE_PRODUCT:
       const newProduct = new Product(
         action.productData.id,
-        "u1",
+        action.productData.ownerId,
         action.productData.title,
         action.productData.imageUrl,
         action.productData.description,
@@ -79,9 +72,7 @@ const productReducer = (state = initState, action) => {
       return {
         ...state,
         availableProducts: action.products,
-        userProducts: action.products.filter(
-          (product) => product.id !== action.productId
-        ),
+        userProducts: action.userProducts,
       };
 
     default:

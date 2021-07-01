@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useReducer } from "react";
+import React, { useEffect, useCallback, useReducer, useState } from "react";
 import {
   View,
   ScrollView,
@@ -6,6 +6,7 @@ import {
   Alert,
   KeyboardAvoidingView,
   Platform,
+  ActivityIndicator,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
@@ -13,6 +14,7 @@ import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import CustomHeaderButton from "../../components/HeaderButton";
 import { createProduct, updateProduct } from "../../store/actions/products";
 import Input from "../../components/Input";
+import Colors from "../../constants/Colors";
 
 const formReducer = (state, action) => {
   if (action.type === "UPDATE") {
@@ -42,6 +44,7 @@ const formReducer = (state, action) => {
 };
 
 const EditProduct = (props) => {
+  const [isLoading, setIsLoading] = useState(false);
   const { route, navigation } = props;
   const productId = route.params?.productId;
   const editedProduct = useSelector((state) =>
@@ -66,7 +69,7 @@ const EditProduct = (props) => {
     formIsValid: editedProduct ? true : false,
   });
 
-  const submitHandler = useCallback(() => {
+  const submitHandler = useCallback(async () => {
     if (!formState.formIsValid) {
       Alert.alert("Wrong Inputs!", "The inputs of your form are not valid!", [
         { text: "Ok!" },
@@ -74,8 +77,10 @@ const EditProduct = (props) => {
       return;
     }
 
+    setIsLoading(true);
+
     if (editedProduct) {
-      dispatch(
+      await dispatch(
         updateProduct(
           productId,
           formState.inputValues.title,
@@ -84,7 +89,7 @@ const EditProduct = (props) => {
         )
       );
     } else {
-      dispatch(
+      await dispatch(
         createProduct(
           formState.inputValues.title,
           formState.inputValues.description,
@@ -93,6 +98,8 @@ const EditProduct = (props) => {
         )
       );
     }
+
+    setIsLoading(false);
     navigation.goBack();
   }, [dispatch, productId, formState]);
 
@@ -125,6 +132,14 @@ const EditProduct = (props) => {
     },
     [dispatchform]
   );
+
+  if (isLoading) {
+    return (
+      <View style={styles.centered}>
+        <ActivityIndicator size="large" color={Colors.primary} />
+      </View>
+    );
+  }
 
   return (
     <KeyboardAvoidingView
@@ -203,6 +218,11 @@ const styles = StyleSheet.create({
   },
   title: {
     marginVertical: 8,
+  },
+  centered: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 

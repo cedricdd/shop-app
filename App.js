@@ -9,12 +9,14 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import productReducer from "./store/reducers/products";
 import cartReducer from "./store/reducers/cart";
 import orderReducer from "./store/reducers/order";
-import ShopNavigator from "./navigation/ShopNavigation";
+import authReducer from "./store/reducers/auth";
+import AppNavigator from "./navigation/AppNavigator";
 
 const rootReducer = combineReducers({
   products: productReducer,
   cart: cartReducer,
   orders: orderReducer,
+  auth: authReducer,
 });
 
 //const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(ReduxThunk))); //composeWithDevTools has to be removed before deployment
@@ -23,7 +25,7 @@ const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 export default function App() {
   return (
     <Provider store={store}>
-      <ShopNavigator />
+      <AppNavigator />
     </Provider>
   );
 }
